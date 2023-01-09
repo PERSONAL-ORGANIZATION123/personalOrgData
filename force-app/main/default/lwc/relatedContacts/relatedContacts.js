@@ -140,25 +140,25 @@ export default class RelatedContacts extends NavigationMixin(LightningElement) {
         this.isModalOpen = false;
     }
      
-    // navigateToViewAccountPage(event) {
-    //     this.record = event.detail.row;
-    //     console.log('>>>>id'+this.record)
-    //     this[NavigationMixin.Navigate]({
-    //         type: 'standard__recordPage',
-    //         attributes: {
-    //             recordId: this.record,
-    //             objectApiName: 'Contact',
-    //             actionName: 'view'
-    //         },
-    //     });
-    // }
+    navigateToViewAccountPage(event) {
+        this.record = event.detail.row;
+        console.log('>>>>id'+this.record)
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.record,
+                objectApiName: 'Contact',
+                actionName: 'view'
+            },
+        });
+    }
 
-    // @track isModalOpenContact = false;
-    // openContact(event) {
-    //     // to open modal set isModalOpen tarck value as true
-    //    // this.isModalOpenContact = true;
-    //     this.record = event.detail.row;
-    // }
+    @track isModalOpenContact = false;
+    openContact(event) {
+        // to open modal set isModalOpen tarck value as true
+       // this.isModalOpenContact = true;
+        this.record = event.detail.row;
+    }
 
     closeContact() {
         // to close modal set isModalOpen tarck value as false
