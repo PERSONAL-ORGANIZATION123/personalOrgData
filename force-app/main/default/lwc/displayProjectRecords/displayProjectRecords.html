@@ -1,0 +1,143 @@
+<template>
+    <lightning-card>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-p-left_medium">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                        <!-- <lightning-icon size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+                            icon-name="utility:search" onclick={refreshComponent}></lightning-icon> -->
+                        <lightning-input type="search" placeholder="Search" value={SearchAccountName}
+                            onchange={searchRecord}></lightning-input>
+                        <!-- <input type="text" id="Seach" placeholder="Search" class="slds-input" /> -->
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="slds-col">
+                <div class="slds-align_absolute-center slds-p-top_medium"> -->
+            <!-- <button class="slds-button slds-button_neutral" onclick={refreshComponent}>Cancel</button> -->
+            <!-- <button class="slds-button slds-button_brand" onclick={searchRecord}>Search</button> -->
+            <!-- </div>
+            </div> -->
+        </div>
+        <div class="slds-p-around_small">
+            <details close>
+                <summary>Filter</summary>
+                <div class="slds-checkbox slds-m-top_small">
+                    <lightning-input type="checkbox" label="View Archived Projects" checked={showBool}>
+                    </lightning-input>
+                </div><br>
+                <div class="slds-checkbox slds-m-top_small">
+                    <lightning-input type="checkbox" label="View Only Projects Ready for Final Inspection"
+                        checked={showBool}></lightning-input>
+                </div><br><br>
+                <div class="slds-m-top_small">
+                    Fitler by user / role <br>
+                    <div class="slds-grid slds-gutters ">
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input label="User:" placeholder="User" value={SearchAccountName}
+                                onchange={searchRecord}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input label="Role:" placeholder="Role" value={SearchAccountName}
+                                onchange={searchRecord}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+        <!-- <template if:true={isTableShow}> -->
+        <table class="slds-p-around_small slds-table slds-table_bordered slds-table_striped records-table ">
+            <thead>
+                <tr class="slds-text-title--caps">
+                    <th data-id="Name" onclick={sortName}>
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="ID / Number">ID / Number</span>
+                            <div if:true={isNameSort}>
+                                <div if:true={isAsc}>
+                                    &#9650;
+                                </div>
+                                <div if:true={isDsc}>
+                                    &#9660;
+                                </div>
+                            </div>
+                        </a>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Name / Address">Name / Address</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Contacts">Contacts</div>
+                    </th>
+                    <!-- <th class="" scope="col">
+                            <div class="slds-truncate" title="Phone">Phone</div>
+                        </th> -->
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Loss Type">Loss Type</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Status">Status</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Date Created">Date Created</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Last Updated">Last Updated</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Actions">Actions</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={accountList} for:item="acc">
+                    <tr key={acc.Id}>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <a data-record-id={acc.Id} onclick={navigateToRecordViewPage} target="_blank">{acc.Name}</a>
+                            <!-- <div>{acc.Name}</div> -->
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Designation__c}</div>
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Name}</div>
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Loss_Type__c}</div>
+                        </th>
+                        <!-- <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                                <div>{acc.Date_Of_Loss__c}</div>
+                            </th> -->
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Category__c}</div>
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Sale_Category__c}</div>
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>{acc.Source_Reason_of_Loss__c}</div>
+                        </th>
+                        <th class="slds-form-element slds-size--1-of-12 td-fixed-width" scope="col">
+                            <div>...</div>
+                        </th>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <br><br>
+        <!-- <div class="slds-align_absolute-center">
+                <div class="slds-p-right_xx-small">
+                    <lightning-button label="Prev" onclick={handlePrev} variant="brand" icon-name="utility:back"
+                        name="prev"></lightning-button>
+                </div>
+                <span class="slds-badge slds-badge_lightest">
+                    {recordStart}-{recordEnd} of {totalRecords} | Page {pageNumber} of {totalPages}
+                </span>
+                <div class="slds-p-left_xx-small">
+                    <lightning-button label="Next" disabled={isNext} onclick={handleNext} variant="brand"
+                        icon-name="utility:forward" icon-position="right" name="next"></lightning-button>
+                </div> 
+            </div> -->
+        <!-- </template> -->
+    </lightning-card>
+</template>

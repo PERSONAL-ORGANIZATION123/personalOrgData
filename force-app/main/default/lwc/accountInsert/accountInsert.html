@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 01-06-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+     <lightning-card>
+        <lightning-button label="Create Account Record" variant="brand" onclick={insertAccountAction}></lightning-button>
+
+        <div class="slds-grid slds-wrap">
+           
+            <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                <lightning-input label="Account Name" onchange={nameChangeVal}></lightning-input>
+                </div>
+            </div>
+            <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                <lightning-input label="Account Site" onchange={siteChangeVal}></lightning-input>
+                </div>
+          </div>
+            <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element">
+                <lightning-input label="Phone" onchange={phoneChangeVal}></lightning-input>
+                </div>
+            </div>
+            <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                <div class="slds-form-element slds-p-top_large ">
+                    <lightning-button label="Create Account Record" variant="brand" onclick={insertAccountAction}></lightning-button>
+                </div>
+                </div>
+
+            </div>
+    </lightning-card>
+       
+</template>

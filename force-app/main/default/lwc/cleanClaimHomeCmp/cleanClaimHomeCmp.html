@@ -1,0 +1,1655 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-23-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card>
+        <div class="slds-p-around_x-small">
+            <lightning-button class="slds-m-left_x-small my-button" icon-name="utility:new" label="New Project"
+                title="Non-primary action" onclick={handlenewProjectButtonClick}>
+            </lightning-button>
+        </div>
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-align_absolute-center slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small">
+                            </lightning-icon>
+                            <div class="slds-assistive-text">Close</div>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Project
+
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-tabset variant="scoped">
+                            <!-- ------- Issue tab start------- -->
+                            <lightning-tab icon-name="utility:collection" label="Issue"  title="Issue"
+                                end-icon-name="utility:ban">
+                                <form>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-combobox class="fieldvalidate" name="Designation"
+                                                label="Designation:" value={DesignationPicklistValues}
+                                                placeholder="Designation"
+                                                options={DesignationPicklistValues.data.values}
+                                                onchange={handleDesignationChange} >
+                                            </lightning-combobox>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-combobox name="Loss Type" label="Loss Type:"
+                                                value={LossTypePicklistValues} placeholder="Loss Type"
+                                                options={LossTypePicklistValues.data.values}
+                                                onchange={handleLossTypeChange} >
+                                            </lightning-combobox>
+                                            <template if:true={lossTypeValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-combobox name="Sale Category" label="Sale Category:"
+                                                value={SaleCategoryPicklistValues} placeholder="Sale Category"
+                                                options={SaleCategoryPicklistValues.data.values}
+                                                onchange={handleSaleCategoryChange} >
+                                            </lightning-combobox>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-combobox name="Class" label="Class:" value={ClassPicklistValues}
+                                                placeholder="Class" options={ClassPicklistValues.data.values}
+                                                onchange={handleClassChange} >
+                                            </lightning-combobox>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-combobox name="Category" label="Category:"
+                                                value={CategoryPicklistValues} placeholder="Category"
+                                                options={CategoryPicklistValues.data.values}
+                                                onchange={handleCategoryChange} >
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                            <lightning-input type="text" label="Street Address:"
+                                                placeholder="Street Address" onchange={handleStreetAddressChange}>
+                                            </lightning-input>
+                                            <template if:true={streetValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small">
+                                            <lightning-input type="text" label="City:" placeholder="City"
+                                                onchange={handleCityChange}></lightning-input>
+                                            <template if:true={cityValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                                    <lightning-combobox name="State" label="State:"
+                                                        value={StatePicklistValues} placeholder="State"
+                                                        options={StatePicklistValues.data.values}
+                                                        onchange={handlestateChange}>
+                                                    </lightning-combobox>
+                                                    <template if:true={stateValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_4-of-12">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_9-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="Number" label="Zip:"
+                                                                placeholder="Zip"
+                                                                onchange={handleZipChange}></lightning-input>
+                                                            <template if:true={zipValueNull}>
+                                                                <span style="color:red">{lossTypMessage}</span>
+                                                            </template>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-12">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_4-of-12">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                            <lightning-input type="datetime" name="input1" label="Client Contacted:"
+                                                placeholder="Client Contacted" onchange={handleClientContactedChange}>
+                                            </lightning-input>
+                                            <template if:true={clientcontactedValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_7-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_7-of-12">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_7-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="text" label="Year Of Structure: (optional):"
+                                                        placeholder="Year Of Structure"
+                                                        onchange={handleYearOfStructureChange}>
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="Date" label="Date Of Loss:"
+                                                        placeholder="Date Of Loss" onchange={handleDateOfLossChange}>
+                                                    </lightning-input>
+                                                    <template if:true={dateoflossValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_5-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small">
+                                            <lightning-combobox name="Source/Reason of Loss:"
+                                                label="Source/Reason of Loss:" value={SourceReasonofLossPicklistValues}
+                                                placeholder="Source/Reason of Loss"
+                                                options={SourceReasonofLossPicklistValues.data.values}
+                                                onchange={handleSourceChange}>
+                                            </lightning-combobox>
+                                        </div>
+                                        <div class="slds-col slds-size_6-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                            <lightning-textarea name="input1" label="Affected Areas:"
+                                                placeholder="Affected Areas" onchange={handleAffectedAreasChange}>
+                                            </lightning-textarea>
+                                            <template if:true={affectedAreasValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                            <lightning-input type="datetime" name="input1" label="Site Inspected:"
+                                                placeholder="Site Inspected:" onchange={handleSiteInspectedChange}>
+                                            </lightning-input>
+                                            <template if:true={siteInspectedValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_7-of-12">
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" onclick={handleSaveProjectRecordevent}
+                                            class="slds-m-left_x-small con-button"></lightning-button>
+
+                                        <template if:true={isMarkandCompletelockModalOpen}>
+                                            <!-- Modal/Popup Box LWC starts here -->
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                                aria-modal="true" aria-describedby="modal-content-id-2"
+                                                class="slds-modal slds-fade-in-open">
+                                                <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                    <div class="slds-modal__content slds-p-around_medium"
+                                                        id="modal-content-id-2">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-col slds-size_11-of-12">
+                                                                <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                    complete this issue?
+                                                                </p>
+                                                                <div class="slds-col slds-size_1-of-12">
+                                                                    <lightning-icon class="yellow-icon"
+                                                                        icon-name="utility:warning"></lightning-icon>
+                                                                </div>
+                                                                <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-float_right slds-m-top_medium">
+                                                            <lightning-button label="No" title="Non-primary action"
+                                                                onclick={MarkandCompletelockcloseModal}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                            <lightning-button variant="brand" label="Yes"
+                                                                title="Primary action"
+                                                                onclick={MarkandCompletelocksubmitDetails}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <div class="slds-backdrop slds-backdrop_open"></div>
+                                        </template>
+                                    </div>
+                                </form>
+                            </lightning-tab>
+                            <!-- ------- Issue tab End------- -->
+
+                            <!-- ------Contact tab start----------- -->
+                            <lightning-tab icon-name="utility:identity" label="Contact"  title="Contact"
+                                end-icon-name="utility:ban">
+                                <lightning-button variant="brand" label="Add a Client" title="Primary action"
+                                    onclick={addRow} class="slds-m-left_x-small con-button"></lightning-button>
+                                <lightning-button variant="brand" label="Add a Renter" title="Primary action"
+                                    onclick={addRenterbox} class="slds-m-left_x-small con-button"></lightning-button>
+                                <lightning-button variant="brand" label="Add a Property Manager" title="Primary action"
+                                    onclick={addPropertyManagerbox} class="slds-m-left_x-small con-button">
+                                </lightning-button>
+                                <lightning-button variant="brand" label="Add a Other" title="Primary action"
+                                    onclick={addOtherClientbox}
+                                    class="slds-m-left_x-small con-button"></lightning-button><br>
+                                <!-- add Client button-->
+                                <template for:each={itemList} for:item="addClient" for:index="addClientindx">
+                                    <form key={addClient.id}>
+                                        <div class="slds-p-top_large">
+                                            <div class="slds-box slds-box_small slds-page-header">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size_11-of-12">
+                                                        <lightning-icon class="slds-p-right_small"
+                                                            icon-name="utility:home" size="small">
+                                                        </lightning-icon>
+                                                        <span
+                                                            style="font-weight: bold; font-size: 13px; font-family: sans-serif;">
+                                                            Client</span>
+                                                    </div>
+                                                    <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                                                        <lightning-icon icon-name="action:delete"
+                                                            alternative-text="Delete" access-key={addClient.id}
+                                                            id={addClientindx} size="xx-small" title="x-small size"
+                                                            onclick={removeRow}>
+                                                        </lightning-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-box">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                        <lightning-input type="text" label="First Name:"
+                                                            placeholder="First Name" onchange={handleFirstNameChange}>
+                                                        </lightning-input>
+                                                        <template if:true={firstNameValueNull}>
+                                                            <span style="color:red">{lossTypMessage}</span>
+                                                        </template>
+                                                    </div>
+                                                    <div class="slds-col slds-size_7-of-12">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div
+                                                                class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                                                <lightning-input type="text" label="Middle Initial:"
+                                                                    placeholder="Initial"
+                                                                    onchange={handleMiddleInitialChange}>
+                                                                </lightning-input>
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                                                <lightning-input type="text" label="Last Name:"
+                                                                    placeholder="Last Name"
+                                                                    onchange={handleLastNameChange}>
+                                                                </lightning-input>
+                                                                <template if:true={lastNameValueNull}>
+                                                                    <span style="color:red">{lossTypMessage}</span>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                        <lightning-input type="email" label="Email:" placeholder="Email"
+                                                            onchange={handleEmailChange}>
+                                                        </lightning-input>
+                                                        <template if:true={emailValueNull}>
+                                                            <span style="color:red">{lossTypMessage}</span>
+                                                        </template>
+                                                    </div>
+                                                    <div class="slds-col slds-size_7-of-12">
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                        <lightning-input type="tel" label="Cell:"
+                                                            onchange={handleCellChange}>
+                                                        </lightning-input>
+                                                        <template if:true={cellValueNull}>
+                                                            <span style="color:red">{lossTypMessage}</span>
+                                                        </template>
+                                                    </div>
+                                                    <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                        <lightning-input type="tel" label="Phone:"
+                                                            onchange={handlePhoneChange}>
+                                                        </lightning-input>
+                                                        <template if:true={phoneValueNull}>
+                                                            <span style="color:red">{lossTypMessage}</span>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-checkbox slds-m-top_small">Require to sign:
+                                                    <lightning-input type="checkbox" label="Contract" checked={showBool}
+                                                        onchange={handleContractChange}>
+                                                    </lightning-input>
+                                                </div><br>
+                                                <div class="slds-checkbox slds-m-top_small">
+                                                    <lightning-input type="checkbox" label="Certificate of Completion"
+                                                        checked={showBool} onchange={handleCertiofCompleChange}>
+                                                    </lightning-input>
+                                                </div><br>
+                                                <div class="slds-checkbox slds-m-top_small">
+                                                    <lightning-input type="checkbox" label="Health Survey"
+                                                        checked={showBool} onchange={handleHealthSurveyChange}>
+                                                    </lightning-input>
+                                                </div><br>
+                                                <div class="slds-checkbox slds-m-top_small">
+                                                    <lightning-input type="checkbox" label="Contents Moving Contract"
+                                                        checked={showBool}
+                                                        onchange={handleContaintMovingContractChange}>
+                                                    </lightning-input>
+                                                </div><br>
+                                                <div class="slds-checkbox slds-m-top_small">
+                                                    <lightning-input type="checkbox" label="Direct Pay Authorization"
+                                                        checked={showBool} onchange={handlePayAuthChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </template>
+                                <!-- -Add Client button End  -->
+
+                                <!-- -Add Renter button start -->
+                                <template for:each={addRenterList} for:item="addRenter" for:index="renterindx">
+                                    <div key={addRenter.id} class="slds-p-top_large">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <lightning-icon class="slds-p-right_small"
+                                                        icon-name="utility:hierarchy" size="small">
+                                                    </lightning-icon>
+                                                    <span
+                                                        style="font-weight: bold; font-size: 14px; font-family: sans-serif;">
+                                                        Renter</span>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                                                    <lightning-icon icon-name="action:delete" access-key={addRenter.id}
+                                                        alternative-text="Delete" size="xx-small" title="x-small size"
+                                                        onclick={removeRenterbox}>
+                                                    </lightning-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-box">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="text" label="First Name:"
+                                                        placeholder="First Name" onchange={handleRenterFirstNameChange}>
+                                                    </lightning-input>
+                                                    <template if:true={renterfirstNameValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Middle Initial:"
+                                                                placeholder="Initial"
+                                                                onchange={handleRenterMiddleInitialChange}>
+                                                            </lightning-input>
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Last Name:"
+                                                                placeholder="Last Name"
+                                                                onchange={handleRenterLastNameChange}>
+                                                            </lightning-input>
+                                                            <template if:true={renterlastNameValueNull}>
+                                                                <span style="color:red">{lossTypMessage}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="email" label="Email:" placeholder="Email"
+                                                        onchange={handleRenterEmailChange}>
+                                                    </lightning-input>
+                                                    <template if:true={renteremailValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Cell:"
+                                                        onchange={handleRenterCellChange}>
+                                                    </lightning-input>
+                                                    <template if:true={rentercellValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Phone:"
+                                                        onchange={handleRenterPhoneChange}>
+                                                    </lightning-input>
+                                                    <template if:true={renterphoneValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="slds-checkbox slds-m-top_small">Require to sign:
+                                                <lightning-input type="checkbox" label="Contract" checked={showBool}
+                                                    onchange={handleRenterContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Certificate of Completion"
+                                                    checked={showBool} onchange={handleRenterCertiofCompleChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Health Survey"
+                                                    checked={showBool} onchange={handleRenterHealthSurveyChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Contents Moving Contract"
+                                                    checked={showBool}
+                                                    onchange={handleRenterContaintMovingContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Direct Pay Authorization"
+                                                    checked={showBool} onchange={handleRenterPayAuthChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- -Add Renter button End -->
+
+                                <!-- ------Add Property Manager button start----- -->
+                                <template for:each={addPropertyManagerList} for:item="addPropertyManager"
+                                    for:index="propManaindx">
+                                    <div key={addPropertyManager.id} class="slds-p-top_large"
+                                        id={addPropertyManager.key}>
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <lightning-icon class="slds-p-right_small"
+                                                        icon-name="utility:identity" size="small">
+                                                    </lightning-icon>
+                                                    <span
+                                                        style="font-weight: bold; font-size: 14px; font-family: sans-serif;">
+                                                        Property
+                                                        Manager
+                                                    </span>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                                                    <lightning-icon icon-name="action:delete" alternative-text="Delete"
+                                                        access-key={addPropertyManager.id} size="xx-small"
+                                                        title="x-small size" onclick={removePropertyManagerbox}>
+                                                    </lightning-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-box">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="text" label="First Name:"
+                                                        placeholder="First Name"
+                                                        onchange={handlePropMangFirstNameChange}>
+                                                    </lightning-input>
+                                                    <template if:true={propManagerfirstNameValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Middle Initial:"
+                                                                placeholder="Initial"
+                                                                onchange={handlePropMangMiddleInitialChange}>
+                                                            </lightning-input>
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Last Name:"
+                                                                placeholder="Last Name"
+                                                                onchange={handlePropMangLastNameChange}>
+                                                            </lightning-input>
+                                                            <template if:true={propManagerlastNameValueNull}>
+                                                                <span style="color:red">{lossTypMessage}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="email" label="Email:" placeholder="Email"
+                                                        onchange={handlePropMangEmailChange}>
+                                                    </lightning-input>
+                                                    <template if:true={propManageremailValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Cell:"
+                                                        onchange={handlePropMangCellChange}>
+                                                    </lightning-input>
+                                                    <template if:true={propManagercellValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Phone:"
+                                                        onchange={handlePropMangPhoneChange}>
+                                                    </lightning-input>
+                                                    <template if:true={propManagerphoneValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="slds-checkbox slds-m-top_small">Require to sign:
+                                                <lightning-input type="checkbox" label="Contract" checked={showBool}
+                                                    onchange={handlePropMangContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Certificate of Completion"
+                                                    checked={showBool} onchange={handlePropMangCertiofCompleChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Health Survey"
+                                                    checked={showBool} onchange={handlePropMangHealthSurveyChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Contents Moving Contract"
+                                                    checked={showBool}
+                                                    onchange={handlePropMangContaintMovingContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Direct Pay Authorization"
+                                                    checked={showBool} onchange={handlePropMangPayAuthChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- -Add Property Manager End -->
+
+                                <!-- -Add Other Button start -->
+                                <template for:each={addotherList} for:item="addOther" for:index="otherindx">
+                                    <div key={addOther.id} class="slds-p-top_large" id={addOther.key}>
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <lightning-icon class="slds-p-right_small"
+                                                        icon-name="utility:identity" size="small">
+                                                    </lightning-icon>
+                                                    <span
+                                                        style="font-weight: bold; font-size: 14px; font-family: sans-serif;">
+                                                        Other</span>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                                                    <lightning-icon style="align-items: right;"
+                                                        icon-name="action:delete" alternative-text="Delete"
+                                                        access-key={addOther.id} size="xx-small" title="x-small size"
+                                                        onclick={removeOtherClientbox}>
+                                                    </lightning-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-box">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="text" label="First Name:"
+                                                        placeholder="First Name"
+                                                        onchange={handleOtherClientFirstNameChange}>
+                                                    </lightning-input>
+                                                    <template if:true={otherClientfirstNameValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Middle Initial:"
+                                                                placeholder="Initial"
+                                                                onchange={handleOtherClientMiddleInitialChange}>
+                                                            </lightning-input>
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                                            <lightning-input type="text" label="Last Name:"
+                                                                placeholder="Last Name"
+                                                                onchange={handleOtherClientLastNameChange}>
+                                                            </lightning-input>
+                                                            <template if:true={otherClientlastNameValueNull}>
+                                                                <span style="color:red">{lossTypMessage}</span>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="email" label="Email:" placeholder="Email"
+                                                        onchange={handleOtherClientEmailChange}>
+                                                    </lightning-input>
+                                                    <template if:true={otherClientemailValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_7-of-12">
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Cell:"
+                                                        onchange={handleOtherClientCellChange}>
+                                                    </lightning-input>
+                                                    <template if:true={otherClientcellValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="slds-col slds-size_5-of-12 slds-p-around_x-small">
+                                                    <lightning-input type="tel" label="Phone:"
+                                                        onchange={handleOtherClientPhoneChange}>
+                                                    </lightning-input>
+                                                    <template if:true={otherClientphoneValueNull}>
+                                                        <span style="color:red">{lossTypMessage}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="slds-checkbox slds-m-top_small">Require to sign:
+                                                <lightning-input type="checkbox" label="Contract" checked={showBool}
+                                                    onchange={handleOtherClientContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Certificate of Completion"
+                                                    checked={showBool} onchange={handleOtherClientCertiofCompleChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Health Survey"
+                                                    checked={showBool} onchange={handleOtherClientHealthSurveyChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Contents Moving Contract"
+                                                    checked={showBool}
+                                                    onchange={handleOtherClientContaintMovingContractChange}>
+                                                </lightning-input>
+                                            </div><br>
+                                            <div class="slds-checkbox slds-m-top_small">
+                                                <lightning-input type="checkbox" label="Direct Pay Authorization"
+                                                    checked={showBool} onchange={handleOtherClientPayAuthChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- -Add Other  -->
+                                <div class="slds-p-top_small">
+                                    <div class="slds-border_top"></div>
+                                </div>
+                                <div class="slds-p-top_medium">
+                                    <lightning-button variant="brand" label="Mark Complete and Lock"
+                                        title="Primary action" class="slds-m-left_x-small con-button"
+                                        onclick={handleNullCheckContactRecord}>
+                                    </lightning-button>
+                                    <template if:true={isMarkandCompletelockModalOpen}>
+                                        <!-- Modal/Popup Box LWC starts here -->
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-2"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                <div class="slds-modal__content slds-p-around_medium"
+                                                    id="modal-content-id-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_11-of-12">
+                                                            <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                complete this issue?
+                                                            </p>
+                                                            <div class="slds-col slds-size_1-of-12">
+                                                                <lightning-icon class="yellow-icon"
+                                                                    icon-name="utility:warning"></lightning-icon>
+                                                            </div>
+                                                            <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-float_right slds-m-top_medium">
+                                                        <lightning-button label="No" title="Non-primary action"
+                                                            onclick={MarkandCompletelockcloseModal}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                        <lightning-button variant="brand" label="Yes"
+                                                            title="Primary action" onclick={handleSaveContctRecord}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template>
+                                </div>
+                            </lightning-tab>
+                            <!-- ------Contact tab End ----------- -->
+
+                            <!-- -----insurance tab ------------- -->
+                            <!-- -----default insurance tab ------------- -->
+                            <template if:true={defaultInsurancetab}>
+                                <lightning-tab icon-name="utility:record_create" label="Insurance" 
+                                    title="Insurance" end-icon-name="utility:ban">
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-box" style="background-color: #E6F7FF; border-color: #5757f4;">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-12">
+                                                    <lightning-icon class="my-icon slds-float_right slds-p-right_medium"
+                                                        icon-name="utility:info_alt" alternative-text="close"
+                                                        variant="inverse" size="small">
+                                                    </lightning-icon>
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <p style="font-size: 14px;">Insurance information is not required
+                                                        for this project, since the sale category is ""</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" class="slds-m-left_x-small con-button"
+                                            onclick={handledefaultInsurancetab}></lightning-button>
+                                        <template if:true={isMarkandCompletelockModalOpen}>
+                                            <!-- Modal/Popup Box LWC starts here -->
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                                aria-modal="true" aria-describedby="modal-content-id-2"
+                                                class="slds-modal slds-fade-in-open">
+                                                <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                    <div class="slds-modal__content slds-p-around_medium"
+                                                        id="modal-content-id-4">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-col slds-size_11-of-12">
+                                                                <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                    complete this issue?
+                                                                </p>
+                                                                <div class="slds-col slds-size_1-of-12">
+                                                                    <lightning-icon class="yellow-icon"
+                                                                        icon-name="utility:warning"></lightning-icon>
+                                                                </div>
+                                                                <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-float_right slds-m-top_medium">
+                                                            <lightning-button label="No" title="Non-primary action"
+                                                                onclick={MarkandCompletelockcloseModal}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                            <lightning-button variant="brand" label="Yes"
+                                                                title="Primary action"
+                                                                onclick={defaultInsurancesubmitDetails}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <div class="slds-backdrop slds-backdrop_open"></div>
+                                        </template>
+                                    </div>
+                                </lightning-tab>
+                            </template>
+                            <!-- -----default insurance tab ------------- -->
+                            <!-- Sale catagory is Insurance -->
+                            <template if:true={insuranceSelect}>
+                                <lightning-tab icon-name="utility:record_create" label="Insurance" 
+                                    title="Insurance" end-icon-name="utility:ban">
+                                    <div class="slds-p-top_x-small">Send email to adjuster</div>
+                                    <lightning-button icon-name="utility:email" variant="brand"
+                                        label="Send Adjuster Email" title="Primary action"
+                                        class="con-button"></lightning-button>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_8-of-12 slds-p-around_x-small">
+                                            <lightning-input type="text" label="Company:" placeholder="Company"
+                                                onchange={handleCompanyChange}>
+                                            </lightning-input>
+                                            <template if:true={companyValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="text" label="Agent Name: (optional):"
+                                                placeholder="Agent Name" onchange={handleAgentNameChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="tel" label="Agent Phone: (optional):"
+                                                onchange={handleAgentPhoneChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small">
+                                            <lightning-input type="text" label="Adjuster Name:"
+                                                placeholder="Adjuster Name" onchange={handleAdjusterNameChange}>
+                                            </lightning-input>
+                                            <template if:true={adjusterNameValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="email" label="Adjuster Email:"
+                                                placeholder="Adjuster Email" onchange={handleAdjusterEmailChange}>
+                                            </lightning-input>
+                                            <template if:true={adjusterEmailValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="tel" label="Adjuster Phone:"
+                                                onchange={handleAdjusterPhoneChange}>
+                                            </lightning-input>
+                                            <template if:true={adjusterPhoneValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="tel" label="Adjuster Fax: (optional)"
+                                                onchange={handleAdjusterFaxChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="datetime" label="Vendor Contacted At:"
+                                                placeholder="Vendor Contacted At"
+                                                onchange={handleVendorContactedAtChange}>
+                                            </lightning-input>
+                                            <template if:true={vendorContactedAtValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="number" label="Policy Number: (optional)"
+                                                placeholder="Policy Number" onchange={handlePolicyNumberChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-p-around_x-small">
+                                            <lightning-input type="number" label="Claim Number:"
+                                                placeholder="Claim Number" onchange={handleClaimNumberChange}>
+                                            </lightning-input>
+                                            <template if:true={claimNumberValueNull}>
+                                                <span style="color:red">{lossTypMessage}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_3-of-12 slds-p-around_x-small">
+                                            <lightning-input type="number" label="Deductible: (optional)"
+                                                placeholder="Deductible" onchange={handleDeductibleChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <div
+                                            class="slds-col slds-size_3-of-12 slds-p-around_x-small slds-checkbox slds-m-top_small">
+                                            <lightning-input type="checkbox" label="Deductible Collected"
+                                                checked={showBool} onchange={handleDeductibleCollectedChange}>
+                                            </lightning-input>
+                                        </div><br>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div
+                                            class="slds-col slds-size_4-of-12 slds-p-around_x-small slds-checkbox slds-m-top_small">
+                                            <lightning-input type="checkbox" label="Finish Later" checked={showBool}
+                                                onchange={handleFinishLaterChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" class="slds-m-left_x-small con-button"
+                                            onclick={handaleInsuranceSave}>
+                                        </lightning-button>
+                                        <template if:true={isMarkandCompletelockModalOpen}>
+                                            <!-- Modal/Popup Box LWC starts here -->
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                                aria-modal="true" aria-describedby="modal-content-id-2"
+                                                class="slds-modal slds-fade-in-open">
+                                                <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                    <div class="slds-modal__content slds-p-around_medium"
+                                                        id="modal-content-id-5">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-col slds-size_11-of-12">
+                                                                <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                    complete this issue?
+                                                                </p>
+                                                                <div class="slds-col slds-size_1-of-12">
+                                                                    <lightning-icon class="yellow-icon"
+                                                                        icon-name="utility:warning"></lightning-icon>
+                                                                </div>
+                                                                <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-float_right slds-m-top_medium">
+                                                            <lightning-button label="No" title="Non-primary action"
+                                                                onclick={MarkandCompletelockcloseModal}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                            <lightning-button variant="brand" label="Yes"
+                                                                title="Primary action"
+                                                                onclick={insuranceRecordsubmitDetails}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <div class="slds-backdrop slds-backdrop_open"></div>
+                                        </template>
+                                    </div>
+                                </lightning-tab>
+                            </template>
+                            <!-- Sale catagory is Insurance End-->
+                            <!-- Sale catagory is Out Of Pocket -->
+                            <template if:true={outOfPocketvalueSelected}>
+                                <lightning-tab icon-name="utility:record_create" label="Estimate" 
+                                    title="Estimate" end-icon-name="utility:ban">
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-box" style="background-color: #E6F7FF; border-color: #5757f4;">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-12">
+                                                    <lightning-icon class="my-icon slds-float_right slds-p-right_medium"
+                                                        icon-name="utility:info_alt" alternative-text="close"
+                                                        variant="inverse" size="small">
+                                                    </lightning-icon>
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <p style="font-size: 14px;">Insurance information is not required
+                                                        for this project, since the
+                                                        sale
+                                                        category is "Out Of Pocket"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-around_x-small">"Out of Pocket" jobs can enter an option estimate
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_3-of-12 slds-p-around_x-small">
+                                            <lightning-input type="number" label="Estimate"
+                                                onchange={handleEstimateChange}></lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_x-small">
+                                            <lightning-textarea name="input1" label="Estimate Explanation:"
+                                                placeholder="Estimate Explanation"
+                                                onchange={handleEstimateExplanationChange}>
+                                            </lightning-textarea>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-around_x-small">You can use Markdown syntex here</div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" class="slds-m-left_x-small con-button"
+                                            onclick={handaleEstimateSave}></lightning-button>
+                                        <template if:true={isMarkandCompletelockModalOpen}>
+                                            <!-- Modal/Popup Box LWC starts here -->
+                                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                                aria-modal="true" aria-describedby="modal-content-id-2"
+                                                class="slds-modal slds-fade-in-open">
+                                                <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                    <div class="slds-modal__content slds-p-around_medium"
+                                                        id="modal-content-id-6">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-col slds-size_11-of-12">
+                                                                <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                    complete this issue?
+                                                                </p>
+                                                                <div class="slds-col slds-size_1-of-12">
+                                                                    <lightning-icon class="yellow-icon"
+                                                                        icon-name="utility:warning"></lightning-icon>
+                                                                </div>
+                                                                <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-float_right slds-m-top_medium">
+                                                            <lightning-button label="No" title="Non-primary action"
+                                                                onclick={MarkandCompletelockcloseModal}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                            <lightning-button variant="brand" label="Yes"
+                                                                title="Primary action"
+                                                                onclick={MarkandCompletelocksubmitDetails}
+                                                                class="slds-m-left_x-small"></lightning-button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <div class="slds-backdrop slds-backdrop_open"></div>
+                                        </template>
+                                    </div>
+                                </lightning-tab>
+                            </template>
+                            <!-- Sale catagory is Out Of Pocket End-->
+                            <!-- Sale catagory is Equipment Rental -->
+                            <template if:true={equipmentRentalvalueSelected}>
+                                <lightning-tab icon-name="utility:record_create" label="Insurance" 
+                                    title="Insurance" end-icon-name="utility:ban">
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-box" style="background-color: #E6F7FF; border-color: #5757f4;">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-12">
+                                                    <lightning-icon class="my-icon slds-float_right slds-p-right_medium"
+                                                        icon-name="utility:info_alt" alternative-text="close"
+                                                        variant="inverse" size="small">
+                                                    </lightning-icon>
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <p style="font-size: 14px;">Insurance information is not required
+                                                        for this project, since the
+                                                        sale
+                                                        category is "Equipment Rental"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" class="slds-m-left_x-small con-button"
+                                            onclick={handaleEquipmentRentalSave}></lightning-button>
+                                    </div>
+                                    <template if:true={isMarkandCompletelockModalOpen}>
+                                        <!-- Modal/Popup Box LWC starts here -->
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-2"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                <div class="slds-modal__content slds-p-around_medium"
+                                                    id="modal-content-id-7">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_11-of-12">
+                                                            <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                complete this issue?
+                                                            </p>
+                                                            <div class="slds-col slds-size_1-of-12">
+                                                                <lightning-icon class="yellow-icon"
+                                                                    icon-name="utility:warning"></lightning-icon>
+                                                            </div>
+                                                            <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-m-top_medium slds-float_right">
+                                                        <lightning-button label="No" title="Non-primary action"
+                                                            onclick={MarkandCompletelockcloseModal}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                        <lightning-button variant="brand" label="Yes"
+                                                            title="Primary action"
+                                                            onclick={MarkandCompletelocksubmitDetails}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template>
+                                </lightning-tab>
+                            </template>
+                            <!-- Sale catagory is Equipment Rental End-->
+
+                            <!-- Sale catagory is Warranty-->
+                            <template if:true={warrantyvalueSelected}>
+                                <lightning-tab icon-name="utility:record_create" label="Insurance" 
+                                    title="Insurance" end-icon-name="utility:ban">
+                                    <div class="slds-p-around_x-small">
+                                        <div class="slds-box" style="background-color: #E6F7FF; border-color: #5757f4;">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-12">
+                                                    <lightning-icon class="my-icon slds-float_right slds-p-right_medium"
+                                                        icon-name="utility:info_alt" alternative-text="close"
+                                                        variant="inverse" size="small">
+                                                    </lightning-icon>
+                                                </div>
+                                                <div class="slds-col slds-size_11-of-12">
+                                                    <p style="font-size: 14px;">Insurance information is not required
+                                                        for this project, since the
+                                                        sale
+                                                        category is "Warranty"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small">
+                                        <div class="slds-border_top"></div>
+                                    </div>
+                                    <div class="slds-p-top_medium">
+                                        <lightning-button variant="brand" label="Mark Complete and Lock"
+                                            title="Primary action" class="slds-m-left_x-small con-button"
+                                            onclick={handaleWarrantySave}></lightning-button>
+                                    </div>
+                                    <template if:true={isMarkandCompletelockModalOpen}>
+                                        <!-- Modal/Popup Box LWC starts here -->
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-2"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-p-left_xx-large slds-modal__container Markbutton">
+                                                <div class="slds-modal__content slds-p-around_medium"
+                                                    id="modal-content-id-8">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_11-of-12">
+                                                            <p class="slds-p-left_xx-large"> Are you sure want to
+                                                                complete this issue?
+                                                            </p>
+                                                            <div class="slds-col slds-size_1-of-12">
+                                                                <lightning-icon class="yellow-icon"
+                                                                    icon-name="utility:warning"></lightning-icon>
+                                                            </div>
+                                                            <p class="slds-p-left_xx-large">{lable.WarningMessage}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-float_right slds-m-top_medium">
+                                                        <lightning-button label="No" title="Non-primary action"
+                                                            onclick={MarkandCompletelockcloseModal}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                        <lightning-button variant="brand" label="Yes"
+                                                            title="Primary action"
+                                                            onclick={MarkandCompletelocksubmitDetails}
+                                                            class="slds-m-left_x-small"></lightning-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template>
+                                </lightning-tab>
+                            </template>
+                            <!-- Sale catagory is Warranty End-->
+                            <!-- -----insurance tab end------------- -->
+
+                            <!-- -----Legal Review tab ------------- -->
+                            <lightning-tab icon-name="utility:locker_service_console" 
+                                label="Legal Review" title="Legal Review" end-icon-name="utility:ban">
+                                <div class="slds-grid slds-p-around_small">
+                                    <div class="slds-col">
+                                        <img src={logo}>
+                                    </div>
+                                    <div class="slds-col">
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="slds-float_right">
+                                            <div>Quick Dry Restoration</div>
+                                            <div>826 Wagon Trail</div>
+                                            <div>TX, Austin 78758</div>
+                                            <div>512 540-4747</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-p-around_small">
+                                    <div class="slds-box slds-box_small slds-page-header">
+                                        <b>Client And Job Information</b>
+                                    </div>
+                                    <div class="slds-box">
+                                        <table style="font-size: 14px;">
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Job ID
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            6395
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Created On
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            Dec 7, 2022
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Contacts
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {firstName}<br>
+                                                            {lastName}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Address
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {streetAddress}{city}{state}{zip}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Affected Areas
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {affectedAreas}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Source/Reason of Loss
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {sourceReasonofLoss}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Sale category
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {saleCategory}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="slds-p-around_x-small">
+                                                    <div class="slds-grid slds-wrap slds-border_bottom">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            Category
+                                                        </div>
+                                                        <div class="slds-col slds-size_8-of-12">
+                                                            {category}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- -----default insurance tab ------------- -->
+                                <template if:true={defaultInsurancetab}>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <b>Insurance Information</b>
+                                        </div>
+                                        <div class="slds-box slds-border_right">
+                                            Insurance information is not required
+                                            for this project, since the sale category is ""
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- -----default insurance tab ------------- -->
+                                <!-- Sale catagory is Insurance -->
+                                <template if:true={insuranceSelect}>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <b>Insurance Information</b>
+                                        </div>
+                                        <div class="slds-box slds-border_right">
+                                            <table style="font-size: 14px;">
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Insurance Company
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {company}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Agent Name/Phone
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {agentName} / {agentPhone}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Adjuster Name/Phone
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {adjusterName} / {adjusterPhone}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Adjuster Email
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {adjusterEmail}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Adjuster Fax
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {adjusterFax}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Policy#
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {policyNumber}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Claim#
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {claimNumber}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- Sale catagory is Insurance -->
+                                <!-- Sale catagory is Out Of Pocket -->
+                                <template if:true={outOfPocketvalueSelected}>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <b>Insurance Information</b>
+                                        </div>
+                                        <div class="slds-box slds-border_right">
+                                            Insurance information is not required for this project - the sale category
+                                            is "Out Of Pocket".
+                                            <table style="font-size: 14px;">
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Estimate
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {estimate}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-grid slds-wrap slds-border_bottom">
+                                                            <div class="slds-col slds-size_4-of-12">
+                                                                Estimate Explanation
+                                                            </div>
+                                                            <div class="slds-col slds-size_8-of-12">
+                                                                {estimateExplanation}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- Sale catagory is Out Of Pocket -->
+                                <!-- Sale catagory is Equipment Rental -->
+                                <template if:true={equipmentRentalvalueSelected}>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <b>Insurance Information</b>
+                                        </div>
+                                        <div class="slds-box slds-border_right">
+                                            Insurance information is not required for this project - the sale category
+                                            is "Equipment Rental".
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- Sale catagory is Equipment Rental -->
+                                <!-- Sale catagory is Warranty-->
+                                <template if:true={warrantyvalueSelected}>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-box slds-box_small slds-page-header">
+                                            <b>Insurance Information</b>
+                                        </div>
+                                        <div class="slds-box slds-border_right">
+                                            Insurance information is not required for this project - the sale category
+                                            is "Warranty".
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- Sale catagory is Warranty End-->
+                                <div class="slds-p-around_small"
+                                    style="font-size: 16px; font-family: sans-serif; color: #3b88b1;">
+                                    Contract
+                                    <div class="slds-border_top"></div>
+                                </div>
+                                <div style="font-size: 14px; font-family: sans-serif;">
+                                    <p class="slds-p-around_small">{lable.ContractCleanClaims}
+                                    </p>
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-border_top" style="border-color: black; solid"></div>
+                                    </div>
+                                    <p class="slds-p-around_small">{lable.ContractDescription}
+                                    </p>
+                                    <p class="slds-p-around_small">
+                                        TERMS AND CONDITIONS FOR RESTORATION CONTRACT AND DIRECT PAY AUTHORIZATION
+                                    </p>
+                                    <p class="slds-p-left_x-large">{lable.TermsAndCondition1}
+                                    </p><br>
+                                    <p class="slds-p-left_x-large">{lable.TermsAndCondition2}</p>
+                                </div>
+                                <div class="slds-p-top_medium">
+                                    <lightning-button variant="brand" label="Send Remote Signature Link to null null"
+                                        title="Primary action"
+                                        class="slds-m-left_x-small con-button"></lightning-button>
+                                </div>
+                                <div class="slds-p-around_small"
+                                    style="font-size: 16px; font-family: sans-serif; color: #3b88b1;">
+                                    Health Survey
+                                    <div class="slds-border_top"></div>
+                                </div>
+                                <div class="slds-p-around_small" style="font-size: 22px; font-family: sans-serif;">
+                                    Client Health Survey
+                                </div>
+                                <div class="slds-p-around_small" style="font-size: 16px; font-family: sans-serif;">
+                                    <p>In order to provide you with the best possible service, we request that you
+                                        provide us with the following information:</p>
+                                </div>
+                                <div class="slds-p-around_small" style="font-size: 14px; font-family: sans-serif;">
+                                    <p class="slds-p-left_x-large">1. Do any of the residents/tenants have known
+                                        allergies?</p>
+                                    <p class="slds-p-left_x-large">2. Do any of the residents/tenants have any
+                                        sensitivity to chemicals?</p>
+                                    <p class="slds-p-left_x-large">3. Are there any residents/tenants under the care
+                                        of
+                                        an at home Physician/Nurse?</p>
+                                    <p class="slds-p-left_x-large">4. Are there any residents/tenants under the age
+                                        of
+                                        6?</p>
+                                    <p class="slds-p-left_x-large">5. Are there any residents over the age of sixty?
+                                    </p>
+                                    <p class="slds-p-left_x-large">6. Are there any residents/tenants that have
+                                        respiratory problems?</p>
+                                    <p class="slds-p-left_x-large">7. Are there any residents/tenants that have an
+                                        immune deficiency? </p>
+                                    <p class="slds-p-left_x-large">8. Please list any other health concerns you may
+                                        have
+                                        regarding remediation services:</p>
+                                </div>
+                                <div class="slds-p-around_small" style="font-size: 14px; font-family: sans-serif;">
+                                    <p><b>{lable.HealthSurvey}</b></p>
+                                </div>
+                                <div class="slds-p-around_small" style="font-size: 14px; font-family: sans-serif;">
+                                    <lightning-textarea placeholder="Health Survey Response"
+                                        onchange={handleHealthSurveyResponseChange}></lightning-textarea>
+                                </div>
+                                <div class="slds-p-top_medium">
+                                    <lightning-button variant="brand" label="Send Remote Signature Link to null null"
+                                        title="Primary action"
+                                        class="slds-m-left_x-small con-button"></lightning-button>
+                                </div>
+                                <div class="slds-p-around_small"
+                                    style="font-size: 16px; font-family: sans-serif; color: #3b88b1;">
+                                    Contents Moving Contract
+                                    <div class="slds-border_top"></div>
+                                </div>
+                                <p class="slds-p-around_small">
+                                    {lable.ContentsMovingContract}
+                                </p>
+                                <div class="slds-p-around_small">
+                                    <div class="slds-p-left_x-large">
+                                        {lable.ContentsMovingProperty}
+                                    </div>
+                                    <div class="slds-p-left_x-large">
+                                        {lable.ContentsMovingServices}
+                                    </div>
+                                </div>
+                                <div class="slds-p-top_medium">
+                                    <lightning-button variant="brand" label="Send Remote Signature Link to null null"
+                                        title="Primary action"
+                                        class="slds-m-left_x-small con-button"></lightning-button>
+                                </div>
+                                <div class="slds-p-around_small"
+                                    style="font-size: 16px; font-family: sans-serif; color: #3b88b1;">
+                                    Direct Pay Authorization
+                                    <div class="slds-border_top"></div>
+                                </div>
+                                <p class="slds-p-around_small">
+                                    {lable.DirectPayAuthorization} {lable.DirectPayAuthorization2}
+                                </p>
+                                <p class="slds-p-around_small">
+                                    {lable.Customerauthorizes}
+                                </p>
+                                <div class="slds-p-top_medium">
+                                    <lightning-button variant="brand" label="Send Remote Signature Link to null null"
+                                        title="Primary action"
+                                        class="slds-m-left_x-small con-button"></lightning-button>
+                                </div>
+                                <div class="slds-checkbox slds-p-top_medium">
+                                    <lightning-input type="checkbox" label="Skip Signature Collection"
+                                        checked={showBool} onchange={handleSkipSignatureCollectionChange}>
+                                    </lightning-input>
+                                </div>
+                            </lightning-tab>
+                            <!-- -----Legal Review tab ------------- -->
+                        </lightning-tabset>
+                    </div>
+                    <footer class="slds-modal__footer">
+
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <c-display-project-records></c-display-project-records>
+    </lightning-card>
+</template>

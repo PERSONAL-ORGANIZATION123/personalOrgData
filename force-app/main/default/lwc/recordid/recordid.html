@@ -1,0 +1,27 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-26-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+
+ 
+<template>
+    
+    <div class="acc-container">
+        <lightning-record-view-form record-id={recordId} object-api-name="Account">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_2-of-3" style="border:solid blue; border-radius: 2%;">
+                    <lightning-output-field field-name="Name"></lightning-output-field>
+                    <lightning-output-field field-name="Website"></lightning-output-field>
+                    
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="Industry"></lightning-output-field>
+                    <lightning-output-field field-name="AnnualRevenue"></lightning-output-field>
+                </div>
+            </div>
+        </lightning-record-view-form>
+    </div>
+</template>

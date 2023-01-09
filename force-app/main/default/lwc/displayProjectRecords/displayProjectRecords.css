@@ -1,0 +1,9 @@
+.lightning-input{
+    --slds-c-input-radius-border: 2px;
+}
+
+details>summary {
+    padding: 4px;
+    background-color: #eeeeee;
+    outline: none;
+}

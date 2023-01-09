@@ -1,0 +1,184 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 01-05-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+
+    <lightning-card title="Contact List " icon-name="custom:custom63">
+        <lightning-button variant="brand"
+        label="New contact"
+        title="What is Modal/PopUp in LWC?"
+        onclick={openModal}
+        class="slds-m-left_x-small  ">
+    
+      </lightning-button> 
+        <lightning-datatable key-field="Id"  
+            data={accounts}  
+            columns={columns}  
+            hide-checkbox-column="true"  
+            show-row-number-column="true"  
+            onrowaction={callRowAction}>  
+        </lightning-datatable>
+          <template if:false={accounts}>
+              {message}
+          </template>
+    </lightning-card>
+   
+    <template if:true={isModalOpenContact}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Update Existing Contact</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form record-id={contactId} object-api-name="Contact" onsuccess={handleSuccess} onsubmit ={handleSubmit}>
+                        <lightning-output-field field-name="AccountId"> </lightning-output-field>
+                        <lightning-input-field field-name="FirstName" onchange={nameChangeVal}> </lightning-input-field>
+                        <lightning-input-field field-name="LastName" onchange={lastNameChangeVal}> </lightning-input-field>
+                        <lightning-input-field field-name="Email" onchange={emailChangeVal}> </lightning-input-field>
+                        <!-- <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Update"> </lightning-button> -->
+                    </lightning-record-edit-form>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeContact} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitContact} title="Save">save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+  
+
+  
+   <template if:true={isModalOpen}> 
+     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+         <div class="slds-modal__container">
+             <header class="slds-modal__header">
+                 <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                     <lightning-icon icon-name="utility:close"
+                         alternative-text="close"
+                         variant="inverse"
+                         size="small" ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                 </button>
+                 <h2  class="slds-text-heading_medium slds-hyphenate">New Contact Creation</h2>
+             </header>
+             <div class="slds-modal__content slds-p-around_medium" >
+                 <p><b><lightning-input label="First Name" onchange={nameChangeVal}></lightning-input>
+                 </b></p>
+                 <p><b> <lightning-input label="Last Name" onchange={lastNameChangeVal}></lightning-input>
+                 </b></p>
+                 <p><b><lightning-input label="Email" onchange={emailChangeVal}></lightning-input>
+                </b></p>
+             </div>
+             <footer class="slds-modal__footer">
+                 <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                 <button class="slds-button slds-button_brand" onclick={submitDetails} title="Save">save</button>
+             </footer>
+         </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>   
+</template>
+ <!--new view button  start>>>>>>>>>>>>>>>>>>>-->
+ <!-- <lightning-button variant="brand"
+    label="View contact"
+    title="What is Modal/PopUp in LWC?"
+    onclick={navigateToViewAccountPage}
+     class="slds-m-left_x-small">
+    <div class="acc-container">
+        <lightning-record-view-form record-id={recordId} object-api-name="Account">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="FirstName"></lightning-output-field>
+                    <lightning-output-field field-name="LastName"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-output-field field-name="AccountId"></lightning-output-field>
+                    <lightning-output-field field-name="Email"></lightning-output-field>
+                </div>
+            </div>
+        </lightning-record-view-form>
+    </div>
+ </div>
+ </lightning-button> -->
+ <!-- lightning Edit button for open modal window -->
+ <!-- <lightning-button variant="brand"
+ label="Edit"
+ title="What is Modal/PopUp in LWC?"
+ onclick={openContact}
+ class="slds-m-left_x-small">
+</lightning-button> -->
+<!--Use template if:true to display/hide popup based on isModalOpen value--> 
+<!-- <template if:true={isModalOpenContact}> -->
+  <!-- Modal/Popup Box LWC starts here -->
+  <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container"> -->
+          <!-- Modal/Popup Box LWC header here -->
+          <!-- <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                  <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                  <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2  class="slds-text-heading_medium slds-hyphenate"></h2>
+          </header> -->
+          <!-- Modal/Popup Box LWC body starts here -->
+         <!-- <lightning-record-edit-form record-id={recId} object-api-name="Contact"
+          onsuccess={handleSuccess} onsubmit ={handleSubmit}>
+      
+      <lightning-output-field field-name="AccountId">
+      </lightning-output-field>
+      <lightning-input-field field-name="FirstName">
+      </lightning-input-field>
+      <lightning-input-field field-name="LastName">
+      </lightning-input-field>
+      <lightning-input-field field-name="Email">
+      </lightning-input-field>
+      <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Update">
+      </lightning-button>
+  </lightning-record-edit-form>-->
+<!--       
+           Modal/Popup Box LWC footer starts here 
+        
+          <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={closeContact} title="Cancl">Cancel</button>
+              <button class="slds-button slds-button_brand" onclick={submitContact} title="Save">save</button>
+          </footer>
+      </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template> -->
+ 
+
+
+    
+<!--                 
+    <lightning-datatable key-field="Id"  
+        data={accounts}  
+        columns={columns}  
+        hide-checkbox-column="true"  
+        show-row-number-column="true"  
+        onrowaction={callRowAction}>  
+    </lightning-datatable>  -->
+            <!-- </template> -->
+            <!-- <template if:false={accounts}>
+              {message}
+            </template>
+            <template if:true={error}>
+                {error}
+            </template> -->

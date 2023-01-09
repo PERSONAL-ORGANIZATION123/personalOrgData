@@ -1,0 +1,18 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-26-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <h2> Account Datatable</h2>
+<template if:true={acclist}>
+
+
+    <lightning-datatable data={acclist} columns={columns} key-field="id"></lightning-datatable>
+</template>
+<template if:true={error}>
+    {error}
+</template>
+</template>

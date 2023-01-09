@@ -1,0 +1,24 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-26-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="contactlist" icon-name="custom:custom63">
+        <div  class="slds-m-around_x-large">
+            <p class="slds-m-right_small">
+                <lightning-button label="Load Contact" onclick={handleLoad}></lightning-button>
+            </p>
+            <template if:true={accounts}>
+                <template for:each={accounts} for:item="acc">
+                    <p key= {acc.Id}>{acc.Name}</p>
+                </template>
+            </template>
+            <template if:true={error}>
+                {error}
+            </template>
+        </div>
+    </lightning-card>
+</template>

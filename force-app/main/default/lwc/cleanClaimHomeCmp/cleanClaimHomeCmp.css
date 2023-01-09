@@ -1,0 +1,28 @@
+.slds-modal__container {
+    max-width: 100rem !important;
+    width: 70% !important;
+}
+.Markbutton{
+    max-width: 50rem !important;
+    width: 50% !important;
+}
+
+.my-button {
+    --slds-c-button-radius-border: 22px;
+    --slds-c-button-neutral-color-background:#F39c12 ;
+     --slds-c-button-neutral-color-background-hover:#F39c12 ;
+     --slds-c-button-text-color:white ;
+     --slds-c-button-text-color-hover:white ;
+}
+.delete-button{
+    --slds-c-button-neutral-color-background:red ;
+    --slds-c-button-neutral-color-background-hover:red ;
+}
+
+.con-button {
+     --slds-c-button-radius-border: 10px;
+}
+
+.my-icon {
+    --sds-c-icon-color-foreground: #0000FF;
+}

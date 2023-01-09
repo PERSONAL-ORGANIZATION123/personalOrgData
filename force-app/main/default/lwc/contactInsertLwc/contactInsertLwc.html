@@ -1,0 +1,17 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-27-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <lightning-card title="createcontact">
+    <lightning-input type="text" label="First Name" onchange={handleFirstName} value={firstNameVal}></lightning-input>
+    <lightning-input type="text" label="Last Name" onchange={handleLastName} value={lastNameVal}></lightning-input>
+    <lightning-input type="phone" label="Phone" onchange={handlePhone} value={phoneVal}></lightning-input>
+    <lightning-input type="email" label="Email" onchange={handleEmail} value={emailVal}></lightning-input>
+    <lightning-button variant="brand" label="Save"  onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+
+  </lightning-card>  
+</template>
