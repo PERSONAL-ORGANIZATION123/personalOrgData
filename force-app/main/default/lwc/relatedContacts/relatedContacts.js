@@ -81,18 +81,18 @@ export default class RelatedContacts extends NavigationMixin(LightningElement) {
         }
     } 
     
-    // nameChangeVal(event){
-    //     this.conName = event.target.value;
+    nameChangeVal(event){
+        this.conName = event.target.value;
        
-    // }
+    }
     
-    // lastNameChangeVal(event){
-    //     this.conLastName = event.target.value;
+    lastNameChangeVal(event){
+        this.conLastName = event.target.value;
        
-    // }
-    // emailChangeVal(event){
-    //     this.conEmail = event.target.value;
-    // }
+    }
+    emailChangeVal(event){
+        this.conEmail = event.target.value;
+    }
     
    
     
